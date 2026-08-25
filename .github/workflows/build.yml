@@ -24,9 +24,14 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - run: flutter clean
-      - run: flutter pub get
-      - run: flutter build apk --release --no-tree-shake-icons
+      - name: Regenerate Clean Plugins
+        run: |
+          rm -f android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+          flutter clean
+          flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --release --no-tree-shake-icons
 
       - uses: actions/upload-artifact@v4
         with:
