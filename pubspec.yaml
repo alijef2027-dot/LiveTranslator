@@ -1,0 +1,46 @@
+name: voicebridge
+description: Live offline English-to-Arabic speech-to-text translation with a system floating overlay. Optimized for MediaTek Helio G99 (Samsung Galaxy A24).
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # On-device speech-to-text via whisper.cpp (no cloud).
+  whisper_cpp_flutter_plus: ^0.4.1
+
+  # On-device text translation EN -> AR (Google ML Kit, offline models).
+  google_mlkit_translation: ^0.12.0
+  google_mlkit_commons: ^0.9.0
+
+  # System floating overlay that renders over other apps.
+  flutter_overlay_window_plus: ^1.0.1
+
+  # Permission handling for RECORD_AUDIO and SYSTEM_ALERT_WINDOW.
+  permission_handler: ^11.3.0
+
+  # Path provider for model storage locations.
+  path_provider: ^2.1.3
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Fonts that ship with the app so Arabic renders correctly on every device.
+  fonts:
+    - family: NotoNaskhArabic
+      fonts:
+        - asset: assets/fonts/NotoNaskhArabic-Regular.ttf
+        - asset: assets/fonts/NotoNaskhArabic-Bold.ttf
+          weight: 700
