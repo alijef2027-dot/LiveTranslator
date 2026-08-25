@@ -158,16 +158,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
               _header(),
               const SizedBox(height: 32),
               _statusCard(),
-              const Spacer(),
-              if (_latestArabic.isNotEmpty) _subtitlePreview(),
+              if (_latestArabic.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                _subtitlePreview(),
+              ],
               const SizedBox(height: 24),
               _actionButton(),
             ],
@@ -284,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text('Latest translation',
                 style: Theme.of(context).textTheme.bodyMedium),
@@ -292,6 +296,8 @@ class _HomeScreenState extends State<HomeScreen> {
               textDirection: TextDirection.rtl,
               child: Text(
                 _latestArabic,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: AppTheme.onSurface,
                   fontSize: 22,
@@ -305,6 +311,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             Text(
               _confirmedEnglish,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.left,
             ),
@@ -316,14 +324,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _actionButton() {
     final isListening = _isListening;
-    return FilledButton.icon(
-      onPressed: _isBusy ? null : (isListening ? _stopPipeline : _startPipeline),
-      icon: Icon(isListening ? Icons.stop_rounded : Icons.mic_rounded),
-      label: Text(isListening ? 'Stop' : 'Start Translation'),
-      style: FilledButton.styleFrom(
-        backgroundColor: isListening
-            ? AppTheme.error
-            : AppTheme.samsungBlue,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: FilledButton.icon(
+        onPressed:
+            _isBusy ? null : (isListening ? _stopPipeline : _startPipeline),
+        icon: Icon(isListening ? Icons.stop_rounded : Icons.mic_rounded),
+        label: Text(isListening ? 'Stop' : 'Start Translation'),
+        style: FilledButton.styleFrom(
+          backgroundColor:
+              isListening ? AppTheme.error : AppTheme.samsungBlue,
+        ),
       ),
     );
   }

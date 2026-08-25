@@ -7,8 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.voicebridge"
-    compileSdk = 35
-    ndkVersion = "25.1.8937393"
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -22,7 +21,7 @@ android {
     defaultConfig {
         applicationId = "com.example.voicebridge"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
     }

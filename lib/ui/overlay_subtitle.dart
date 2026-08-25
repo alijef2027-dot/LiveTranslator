@@ -100,6 +100,8 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
                       textDirection: TextDirection.rtl,
                       child: Text(
                         _arabic,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Color(0xFFFFFFFF),
                           fontSize: 18,
@@ -123,6 +125,8 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
                       textDirection: TextDirection.rtl,
                       child: Text(
                         _provisional,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.5),
                           fontSize: 14,
