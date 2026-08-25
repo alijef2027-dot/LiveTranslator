@@ -36,11 +36,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  # Fonts that ship with the app so Arabic renders correctly on every device.
-  fonts:
-    - family: NotoNaskhArabic
-      fonts:
-        # - asset: assets/fonts/NotoNaskhArabic-Regular.ttf
-        - asset: assets/fonts/NotoNaskhArabic-Bold.ttf
-          weight: 700
