@@ -6,13 +6,13 @@ import 'package:whisper_cpp_flutter_plus/whisper_cpp_flutter_plus.dart';
 ///
 /// Whisper's built-in `translate` flag only produces English from other
 /// languages, so we transcribe English here and translate separately.
-/// `cpuThreads: 4` is tuned for the MediaTek Helio G99: enough parallelism
+/// `threads: 4` is tuned for the MediaTek Helio G99: enough parallelism
 /// for real-time decoding without sustained thermal load.
 class WhisperService {
   WhisperEngine? _engine;
   WhisperModelManager? _modelManager;
   StreamSubscription<WhisperStreamUpdate>? _updateSub;
-  MicrophoneTranscriptionTask? _micTask;
+  WhisperStreamTask? _micTask;
 
   bool _isListening = false;
   bool get isListening => _isListening;
@@ -30,7 +30,8 @@ class WhisperService {
 
     var model = await _modelManager!.findCatalogModel(descriptor);
     if (model == null) {
-      await for (final progress in _modelManager!.downloadCatalogModel(descriptor)) {
+      await for (final progress
+          in _modelManager!.downloadCatalogModel(descriptor)) {
         downloadProgress?.call(progress.fraction);
       }
       model = await _modelManager!.findCatalogModel(descriptor);
@@ -45,7 +46,7 @@ class WhisperService {
   /// Starts live microphone transcription. [onUpdate] fires for every
   /// streaming update (provisional + confirmed text).
   Future<void> startListening({
-    required void Function(String confirmedText, String provisionalText) onUpdate,
+    required void Function(String confirmedText, String partialText) onUpdate,
   }) async {
     if (_engine == null) {
       throw StateError('Whisper model not loaded. Call loadModel() first.');
@@ -57,8 +58,6 @@ class WhisperService {
         language: 'en',
         translate: false,
         threads: 4,
-        suppressNonSpeechTokens: true,
-        noTimestamps: true,
         tokenTimestamps: false,
       ),
     );
@@ -66,7 +65,7 @@ class WhisperService {
     _isListening = true;
 
     _updateSub = task.updates.listen((update) {
-      onUpdate(update.confirmedText, update.provisionalText);
+      onUpdate(update.confirmedText, update.partialText);
     });
   }
 
@@ -100,7 +99,7 @@ class WhisperService {
   /// Releases the engine and model manager. Safe to call multiple times.
   Future<void> dispose() async {
     await cancel();
-    await _engine?.dispose();
+    _engine?.dispose();
     _engine = null;
     _modelManager?.close();
     _modelManager = null;

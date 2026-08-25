@@ -33,7 +33,7 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
   String _arabic = '';
   String _english = '';
   String _provisional = '';
-  StreamSubscription<String>? _dataSub;
+  StreamSubscription<dynamic>? _dataSub;
 
   @override
   void initState() {
@@ -47,9 +47,9 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
     super.dispose();
   }
 
-  void _onData(String payload) {
+  void _onData(dynamic payload) {
     try {
-      final map = jsonDecode(payload) as Map<String, dynamic>;
+      final map = jsonDecode(payload as String) as Map<String, dynamic>;
       setState(() {
         _arabic = (map['arabic'] as String?) ?? '';
         _english = (map['english'] as String?) ?? '';
@@ -81,11 +81,11 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
             child: Container(
               decoration: BoxDecoration(
                 color: AppTheme.overlaySurface
-                    .withValues(alpha: AppTheme.overlayOpacity),
+                    .withOpacity(AppTheme.overlayOpacity),
                 borderRadius:
                     BorderRadius.circular(AppTheme.overlayRadius),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: Colors.white.withOpacity(0.08),
                   width: 0.5,
                 ),
               ),
@@ -126,7 +126,7 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
                       child: Text(
                         _provisional,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: Colors.white.withOpacity(0.5),
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           fontFamily: AppTheme.arabicFontFamily,
@@ -140,7 +140,7 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
                     Text(
                       'Listening...',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.4),
+                        color: Colors.white.withOpacity(0.4),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),

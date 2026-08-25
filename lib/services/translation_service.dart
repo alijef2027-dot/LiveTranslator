@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 
 /// On-device English -> Arabic translator backed by Google ML Kit.
@@ -13,33 +11,35 @@ class TranslationService {
     targetLanguage: TranslateLanguage.arabic,
   );
 
+  final OnDeviceTranslatorModelManager _modelManager =
+      OnDeviceTranslatorModelManager();
+
   bool _modelDownloaded = false;
   bool _downloading = false;
 
   bool get isModelDownloaded => _modelDownloaded;
 
   /// Ensures the Arabic model is available on-device. [onProgress] receives
-  /// download percentages (0 - 100).
+  /// a coarse percentage (0 - 100) for UI feedback.
   Future<void> ensureModelDownloaded({
     void Function(int percentage)? onProgress,
   }) async {
     if (_modelDownloaded || _downloading) return;
 
-    final manager = ModelManager();
-    final downloaded = await manager.isModelDownloaded('ar');
+    final downloaded =
+        await _modelManager.isModelDownloaded(TranslateLanguage.arabic.bcpCode);
     if (downloaded) {
       _modelDownloaded = true;
       return;
     }
 
     _downloading = true;
-    final stream = manager.downloadModel('ar', isWifiRequired: false);
-    await for (final event in stream) {
-      if (event == DownloadEvent.success) {
-        _modelDownloaded = true;
-      }
-      // Map event to a rough percentage for UI feedback.
-      onProgress?.call(event == DownloadEvent.success ? 100 : 50);
+    onProgress?.call(0);
+    final success =
+        await _modelManager.downloadModel(TranslateLanguage.arabic.bcpCode);
+    if (success) {
+      _modelDownloaded = true;
+      onProgress?.call(100);
     }
     _downloading = false;
   }

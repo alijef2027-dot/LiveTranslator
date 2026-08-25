@@ -9,7 +9,7 @@ import 'package:flutter_overlay_window_plus/flutter_overlay_window_plus.dart';
 /// communicate via [FlutterOverlayWindowPlus.shareData] (a bidirectional
 /// string channel). We JSON-encode subtitle updates on this channel.
 class OverlayService {
-  StreamSubscription<String>? _dataSub;
+  StreamSubscription<dynamic>? _dataSub;
 
   /// Returns true if the user has granted the "display over other apps"
   /// permission.
@@ -27,7 +27,7 @@ class OverlayService {
     await FlutterOverlayWindowPlus.showOverlay(
       height: 180,
       width: 320,
-      alignment: OverlayAlignment.bottomCenter,
+      alignment: OverlayAlignment.bottom,
       flag: OverlayFlag.defaultFlag,
       overlayTitle: 'VoiceBridge',
       overlayContent: 'Translation',
@@ -48,7 +48,7 @@ class OverlayService {
 
   /// Listens for messages coming back from the overlay isolate (e.g. the user
   /// tapped "stop" on the bubble). [onData] is called for every message.
-  void listenToOverlay(void Function(String data) onData) {
+  void listenToOverlay(void Function(dynamic data) onData) {
     _dataSub?.cancel();
     _dataSub = FlutterOverlayWindowPlus.overlayListener.listen(onData);
   }

@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _onOverlayMessage(String data) {
+  void _onOverlayMessage(dynamic data) {
     if (data == 'stop') {
       _stopPipeline();
     }
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: AppTheme.samsungBlue.withValues(alpha: 0.15),
+            color: AppTheme.samsungBlue.withOpacity(0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           child: const Text(
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
         boxShadow: _isListening
             ? [
                 BoxShadow(
-                  color: color.withValues(alpha: 0.5),
+                  color: color.withOpacity(0.5),
                   blurRadius: 8,
                   spreadRadius: 2,
                 ),
