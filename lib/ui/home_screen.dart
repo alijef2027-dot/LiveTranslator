@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _modelDownloading = false;
 
   String _confirmedEnglish = '';
-  String _provisionalEnglish = '';
   String _latestArabic = '';
 
   @override
@@ -115,7 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
       String confirmedText, String provisionalText) async {
     setState(() {
       _confirmedEnglish = confirmedText;
-      _provisionalEnglish = provisionalText;
     });
 
     // Translate the latest confirmed English text to Arabic and push to overlay.
@@ -141,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _status = TranslationStatus.idle;
       _statusMessage = 'Stopped. Tap Start to begin again.';
       _confirmedEnglish = '';
-      _provisionalEnglish = '';
     });
   }
 

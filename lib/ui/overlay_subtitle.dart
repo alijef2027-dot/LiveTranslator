@@ -31,7 +31,6 @@ class OverlaySubtitleScreen extends StatefulWidget {
 
 class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
   String _arabic = '';
-  String _english = '';
   String _provisional = '';
   StreamSubscription<dynamic>? _dataSub;
 
@@ -52,7 +51,6 @@ class _OverlaySubtitleScreenState extends State<OverlaySubtitleScreen> {
       final map = jsonDecode(payload as String) as Map<String, dynamic>;
       setState(() {
         _arabic = (map['arabic'] as String?) ?? '';
-        _english = (map['english'] as String?) ?? '';
         _provisional = (map['provisional'] as String?) ?? '';
       });
     } on FormatException {

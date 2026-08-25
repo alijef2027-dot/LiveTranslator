@@ -32,7 +32,7 @@ class WhisperService {
     if (model == null) {
       await for (final progress
           in _modelManager!.downloadCatalogModel(descriptor)) {
-        downloadProgress?.call(progress.fraction);
+        downloadProgress?.call(progress.fraction ?? 0.0);
       }
       model = await _modelManager!.findCatalogModel(descriptor);
     }
